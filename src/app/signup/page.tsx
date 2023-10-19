@@ -1,13 +1,11 @@
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-
+import React from "react";
 
 const SignupPage = () => {
   return (
-    <div className='text-center text-3xl font-bold text-green-500'>Signup Page</div>
-  )
-}
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <h1 className="text-center text-2xl font-semibold mb-8">Signup</h1>
+    </div>
+  );
+};
 
-export default SignupPage
+export default SignupPage;
