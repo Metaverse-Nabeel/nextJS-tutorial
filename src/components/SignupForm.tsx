@@ -2,19 +2,43 @@
 // SignupForm.tsx
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 const SignupForm: React.FC = () => {
+  // const router = useRouter();
   const [user, setUser] = useState({
     username: '',
     email: '',
     password: '',
   })
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    // Signup logic here
     e.preventDefault();
-    // Add your signup logic here
+
+    try {
+      
+    } catch (error: any) {
+      console.log("Signup failed", error.message)
+      toast.error(error.message)
+    }
+    finally {
+
+    }
   };
+
+  useEffect(() => {
+    if(user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user])
+  
 
   return (
     <>
@@ -55,8 +79,8 @@ const SignupForm: React.FC = () => {
           onChange={(e) => setUser({...user, password:e.target.value})}
         />
       </div>
-      <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-        Sign Up
+      <Button type="submit" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${buttonDisabled ? "pointer-events-none bg-gray-500 text-gray-200" : ""}`}>
+      Sign Up
       </Button>
       <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mx-4 px-4 rounded focus:outline-none focus:shadow-outline">
         <Link href={'/login'}>Login</Link>
