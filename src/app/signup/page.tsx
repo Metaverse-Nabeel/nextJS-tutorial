@@ -7,7 +7,7 @@ const SignupPage = () => {
       <h1 className="text-center text-2xl font-semibold mb-8">Signup</h1>
       <SignupForm />
     </div>
-  );
+  ); 
 };
 
 export default SignupPage;
