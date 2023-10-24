@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         message: "User created successfully",
         success: true,
         savedUser,
-      }),
+      }) as any,
       status: 200,
       headers: {
         "Content-Type": "application/json",
