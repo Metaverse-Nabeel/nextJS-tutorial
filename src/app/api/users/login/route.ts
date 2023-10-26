@@ -1,4 +1,3 @@
-// Import necessary modules
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,7 +11,6 @@ export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
     const { email, password } = reqBody;
-    console.log(reqBody);
 
     //check if the user exits
     const user = await User.findOne({ email });
@@ -38,7 +36,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    //craete tokenData
+    //create tokenData
 
     const tokenData = {
       id: user._id,
@@ -47,7 +45,7 @@ export async function POST(request: NextRequest) {
     };
 
     //create token
-    const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
+    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
       expiresIn: "1d",
     });
 
@@ -58,7 +56,15 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
       },
     });
-    response.cookies.set("token", token, { httpOnly: true });
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1);
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      path: "/",
+      domain: "http://localhost:3000/",
+      expires: expirationDate,
+    });
 
     return response;
   } catch (error: any) {
