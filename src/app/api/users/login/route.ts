@@ -3,6 +3,7 @@ import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 // Connect to the Mongo Database
 connect();
@@ -59,12 +60,14 @@ export async function POST(request: NextRequest) {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 1);
 
-    response.cookies.set("token", token, {
+    cookies().set({
+      name: "token",
+      value: token,
       httpOnly: true,
       path: "/",
-      domain: "http://localhost:3000/",
       expires: expirationDate,
     });
+    console.log(cookies().get("token"));
 
     return response;
   } catch (error: any) {
